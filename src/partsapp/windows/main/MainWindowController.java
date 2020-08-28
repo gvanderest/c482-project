@@ -1,21 +1,28 @@
 package partsapp.windows.main;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.cell.PropertyValueFactory;
+import partsapp.formatters.PartFormatter;
+import partsapp.formatters.ProductFormatter;
 import partsapp.inventory.Inventory;
 import partsapp.part.Part;
 import partsapp.product.Product;
 
 public class MainWindowController {
-    @FXML private ObservableList<Part> filteredParts;
-    @FXML private ObservableList<Product> filteredProducts;
-
-    @FXML private PropertyValueFactory<Part, String> partIdValueFormatter = new PropertyValueFactory<>("id");
+    @FXML private final ObservableList<PartFormatter> filteredParts = FXCollections.observableArrayList();
+    @FXML private final ObservableList<ProductFormatter> filteredProducts = FXCollections.observableArrayList();
 
     public MainWindowController() {
-        filteredParts = Inventory.getAllParts();
-        filteredProducts = Inventory.getAllProducts();
+        for (Part part: Inventory.getAllParts()) {
+            filteredParts.add(new PartFormatter(part));
+        }
+        System.out.println(filteredParts.size());
+
+        for (Product product: Inventory.getAllProducts()) {
+
+            filteredProducts.add(new ProductFormatter(product));
+        }
     }
 
     public void handleExit() {
