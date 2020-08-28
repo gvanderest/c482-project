@@ -24,16 +24,28 @@
                         <Label text="Parts" />
                         <TextField promptText="Search by Part ID or Name" />
                     </HBox>
-                    <TableView fx:id="partsTable" items="$filteredParts">
+                    <TableView fx:id="partsTable">
                         <columns>
                             <TableColumn text="Part ID">
                                 <cellValueFactory>
                                     <PropertyValueFactory property="id" />
                                 </cellValueFactory>
                             </TableColumn>
-<!--                            <TableColumn fx:id="partNameColumn" text="Part Name" />-->
-<!--                            <TableColumn fx:id="partStockColumn" text="Inventory Level" />-->
-<!--                            <TableColumn fx:id="partPrice" text="Price / Cost per Unit" />-->
+                            <TableColumn text="Part Name">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="name" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Inventory Level">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="stock" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Price / Cost per Unit">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="price" />
+                                </cellValueFactory>
+                            </TableColumn>
                         </columns>
                     </TableView>
                     <HBox alignment="bottom_right" spacing="10">
@@ -47,7 +59,7 @@
                         <Label text="Products" />
                         <TextField promptText="Search by Product ID or Name" />
                     </HBox>
-                    <TableView items="$filteredProducts">
+                    <TableView fx:id="productsTable">
                         <columns>
                             <TableColumn text="Product ID">
                                 <cellValueFactory>

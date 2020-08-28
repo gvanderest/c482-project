@@ -1,17 +1,16 @@
 package partsapp.formatters;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import partsapp.part.Part;
 
+import java.text.NumberFormat;
+
 public class PartFormatter {
+    private static final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+
     private Part part;
 
     public PartFormatter(Part part) {
         this.part = part;
-    }
-
-    public SimpleIntegerProperty getId() {
-        return new SimpleIntegerProperty(part.getId());
     }
 
     public Part getPart() {
@@ -20,5 +19,22 @@ public class PartFormatter {
 
     public void setPart(Part part) {
         this.part = part;
+    }
+
+    public int getId() {
+        return part.getId();
+    }
+
+    public String getName() {
+        return part.getName();
+    }
+
+    public int getStock() {
+        return part.getStock();
+    }
+
+    public String getPrice() {
+        return currencyFormatter.format(part.getPrice());
+
     }
 }

@@ -10,8 +10,9 @@ public class ProductFormatter {
         this.product = product;
     }
 
-    public SimpleIntegerProperty getId() {
-        return new SimpleIntegerProperty(product.getId());
+    public int getId() {
+        return product.getId();
+//        return new SimpleIntegerProperty(product.getId());
     }
 
     public Product getProduct() {
