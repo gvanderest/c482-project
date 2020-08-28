@@ -1,0 +1,74 @@
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.geometry.Insets?>
+
+<GridPane fx:controller="partsapp.windows.main.MainWindowController"
+          xmlns:fx="http://javafx.com/fxml" alignment="top_left" vgap="10" hgap="20">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+    <HBox>
+        <VBox spacing="10">
+            <Label text="Inventory Management System" style="-fx-font-weight: 900;" />
+            <HBox spacing="20">
+                <VBox spacing="10" style="-fx-border-width: 1px; -fx-border-color: #444444; -fx-padding: 10px; -fx-border-radius: 10px;">
+                    <HBox spacing="20">
+                        <Label text="Parts" />
+                        <TextField promptText="Search by Part ID or Name" />
+                    </HBox>
+                    <TableView fx:id="partsTable" items="$filteredParts">
+                        <columns>
+                            <TableColumn text="Part ID">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="id" />
+                                </cellValueFactory>
+                            </TableColumn>
+<!--                            <TableColumn fx:id="partNameColumn" text="Part Name" />-->
+<!--                            <TableColumn fx:id="partStockColumn" text="Inventory Level" />-->
+<!--                            <TableColumn fx:id="partPrice" text="Price / Cost per Unit" />-->
+                        </columns>
+                    </TableView>
+                    <HBox alignment="bottom_right" spacing="10">
+                        <Button text="Add" />
+                        <Button text="Modify" />
+                        <Button text="Delete" />
+                    </HBox>
+                </VBox>
+                <VBox spacing="10" style="-fx-border-width: 1px; -fx-border-color: #444444; -fx-padding: 10px; -fx-border-radius: 10px;">
+                    <HBox spacing="20">
+                        <Label text="Products" />
+                        <TextField promptText="Search by Product ID or Name" />
+                    </HBox>
+                    <TableView items="$filteredProducts">
+                        <columns>
+                            <TableColumn text="Product ID">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="id" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Product Name" />
+                            <TableColumn text="Inventory Level" />
+                            <TableColumn text="Price / Cost per Unit" />
+                        </columns>
+                    </TableView>
+                    <HBox alignment="bottom_right" spacing="10">
+                        <Button text="Add" />
+                        <Button text="Modify" />
+                        <Button text="Delete" />
+                    </HBox>
+                </VBox>
+            </HBox>
+            <HBox alignment="top_right">
+                <Button text="Exit" onAction="#handleExit" />
+            </HBox>
+        </VBox>
+    </HBox>
+</GridPane>
