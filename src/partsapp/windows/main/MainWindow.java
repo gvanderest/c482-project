@@ -8,10 +8,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import javafx.stage.StageStyle;
 import partsapp.formatters.PartFormatter;
 import partsapp.formatters.ProductFormatter;
 import partsapp.inventory.Inventory;
@@ -22,6 +24,7 @@ import partsapp.windows.products.ProductWindow;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -133,6 +136,11 @@ public class MainWindow implements Initializable {
 
         partsTable.setItems(filteredParts);
         partsTable.refresh();
+
+        // Highlight the first item if there is only one, as per rubric requirements.
+        if (partsTable.getItems().size() == 1) {
+            partsTable.getSelectionModel().selectFirst();
+        }
     }
 
     /**
@@ -171,6 +179,11 @@ public class MainWindow implements Initializable {
 
         productsTable.setItems(filteredProducts);
         productsTable.refresh();
+
+        // Highlight the first item if there is only one, as per rubric requirements.
+        if (productsTable.getItems().size() == 1) {
+            productsTable.getSelectionModel().selectFirst();
+        }
     }
 
     /**
@@ -236,14 +249,6 @@ public class MainWindow implements Initializable {
     public void handlePartModified(Part part) {
         closePartWindow();
         refreshAllData();
-    }
-
-    /**
-     * Event handler for requesting the part window be closed by clicking the 'X'.
-     */
-    public void handlePartWindowCloseEvent(WindowEvent event) {
-        event.consume();
-        closePartWindow();
     }
 
     /**
@@ -326,6 +331,8 @@ public class MainWindow implements Initializable {
         partController.setMainWindow(this);
 
         partStage = new Stage();
+        partStage.initStyle(StageStyle.UNDECORATED);
+        partStage.initModality(Modality.APPLICATION_MODAL);
         partStage.setScene(new Scene(addPartsRoot));
         partStage.show();
 
@@ -351,22 +358,23 @@ public class MainWindow implements Initializable {
         productController.setMainWindow(this);
 
         productStage = new Stage();
+        productStage.initStyle(StageStyle.UNDECORATED);
+        productStage.initModality(Modality.APPLICATION_MODAL);
         productStage.setScene(new Scene(addProductsRoot));
         productStage.show();
-
-        productStage.addEventFilter(javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST, this::handlePartWindowCloseEvent);
 
         return productStage;
     }
 
     /**
      * Event handler for the delete parts button, removing a part from the inventory.
-     *
-     * Note: A runtime error was encountered int the following method.  The error was caused by initially using the
+     * <p>
+     * Note: A runtime error was encountered in the following method.  The error was caused by initially using the
      * selectedPartIndex value to call Inventory.getAllParts.get(selectedPartIndex), resulting in the incorrect
      * product being removed inventory if the customer was removing during a part search.  To remedy this issue,
      * the getAllParts() reference was replaced with the filteredParts variable used locally which the search is
      * correctly being applied against.
+     * </p>
      */
     public void handlePartsDeleteButtonClick() {
         // Find requested part to delete.
@@ -380,12 +388,20 @@ public class MainWindow implements Initializable {
             return;
         }
 
+        // Note: Runtime exception relating to filtering and removal was encountered here.
         Part selectedPart = filteredParts.get(selectedPartIndex).getPart();
 
-        // Delete the selected part and refresh list.
-        boolean deleteResult = Inventory.deletePart(selectedPart);
-        if (deleteResult) {
-            refreshAllData();
+        // Confirm the customer wants to delete the parts.
+        Alert deleteConfirm = new Alert(Alert.AlertType.CONFIRMATION);
+        deleteConfirm.setContentText(String.format(
+                "Are you sure you want to delete the part?\n\n%d - %s", selectedPart.getId(), selectedPart.getName()));
+        Optional<ButtonType> result = deleteConfirm.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Delete the selected part and refresh list.
+            boolean deleteResult = Inventory.deletePart(selectedPart);
+            if (deleteResult) {
+                refreshAllData();
+            }
         }
     }
 
@@ -443,11 +459,39 @@ public class MainWindow implements Initializable {
 
         Product selectedProduct = filteredProducts.get(selectedProductIndex).getProduct();
 
-        // Delete the selected product and refresh list.
-        boolean deleteResult = Inventory.deleteProduct(selectedProduct);
-        if (deleteResult) {
-            refreshAllData();
+        // Confirm the customer wants to delete the product.
+        Alert deleteConfirm = new Alert(Alert.AlertType.CONFIRMATION);
+        deleteConfirm.setContentText(String.format(
+            "Are you sure you want to delete the product?\n\n%d - %s?",
+            selectedProduct.getId(),
+            selectedProduct.getName()
+        ));
+        Optional<ButtonType> result = deleteConfirm.showAndWait();
+        boolean deleteResult = false;
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Delete the selected product and refresh list.
+            deleteResult = Inventory.deleteProduct(selectedProduct);
+            if (deleteResult) {
+                refreshAllData();
+            }
+        } else {
+            return;
         }
+
+        // If unsuccessful, display an error message.
+        if (!deleteResult) {
+            // Display an alert that the product failed to delete.
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(
+                "Unable to delete the product from inventory.\n\n" +
+                "This can be caused by a product still having parts associated with it.  " +
+                "Please delete all associated parts before trying again."
+            );
+            alert.show();
+            return;
+        }
+
+        refreshAllData();
     }
 
     /**

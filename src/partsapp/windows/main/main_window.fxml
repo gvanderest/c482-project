@@ -29,6 +29,9 @@
                         />
                     </HBox>
                     <TableView fx:id="partsTable" style="-fx-max-height: 200px;">
+                        <placeholder>
+                            <Label>No parts to display.</Label>
+                        </placeholder>
                         <columns>
                             <TableColumn text="Part ID">
                                 <cellValueFactory>
@@ -68,6 +71,9 @@
                         />
                     </HBox>
                     <TableView fx:id="productsTable" style="-fx-max-height: 200px;">
+                        <placeholder>
+                            <Label>No products to display.</Label>
+                        </placeholder>
                         <columns>
                             <TableColumn text="Product ID">
                                 <cellValueFactory>

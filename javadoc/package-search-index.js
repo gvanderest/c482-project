@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"partsapp"},{"l":"partsapp.formatters"},{"l":"partsapp.inventory"},{"l":"partsapp.part"},{"l":"partsapp.product"},{"l":"partsapp.windows.main"},{"l":"partsapp.windows.parts"},{"l":"partsapp.windows.products"}]

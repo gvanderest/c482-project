@@ -47,6 +47,9 @@
 
             </HBox>
             <TableView fx:id="availablePartsTable" style="-fx-max-height: 200px;">
+                <placeholder>
+                    <Label>No parts to display.</Label>
+                </placeholder>
                 <columns>
                     <TableColumn text="Part ID">
                         <cellValueFactory>
@@ -76,6 +79,9 @@
             </HBox>
 
             <TableView fx:id="usedPartsTable" style="-fx-max-height: 200px;">
+                <placeholder>
+                    <Label>No associated parts to display.</Label>
+                </placeholder>
                 <columns>
                     <TableColumn text="Part ID">
                         <cellValueFactory>

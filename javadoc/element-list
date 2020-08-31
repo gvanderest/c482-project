@@ -1,0 +1,8 @@
+partsapp
+partsapp.formatters
+partsapp.inventory
+partsapp.part
+partsapp.product
+partsapp.windows.main
+partsapp.windows.parts
+partsapp.windows.products

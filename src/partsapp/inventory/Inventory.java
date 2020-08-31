@@ -8,7 +8,9 @@ import partsapp.product.Product;
 /**
  * Shared inventory class for tracking parts and products.
  *
+ * <p>
  * TODO: In a future version of this project, create a database backing mechanism to persist data.
+ * </p>
  */
 public class Inventory {
     /**
@@ -22,12 +24,12 @@ public class Inventory {
     private static final ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
     /**
-     * Current part ID, set to one value before the expected first value. (0 -> 1)
+     * Current part ID, set to one value before the expected first value.
      */
     private static int currentPartId = 0;
 
     /**
-     * Current product ID, set to one value before the expected first value. (999 -> 1000)
+     * Current product ID, set to one value before the expected first value.
      */
     private static int currentProductId = 999;
 
@@ -126,6 +128,7 @@ public class Inventory {
      * @return true if successfully deleted, false otherwise
      */
     public static boolean deletePart(Part selectedPart) {
+        // Remove the part if it is in the inventory.
         boolean partInList = allParts.contains(selectedPart);
         if (partInList) {
             allParts.remove(selectedPart);
@@ -140,10 +143,17 @@ public class Inventory {
      * @return true if successfully deleted, false otherwise
      */
     public static boolean deleteProduct(Product selectedProduct) {
+        // Disallow removal of the product if there are associated parts, based on rubric requirements.
+        if (selectedProduct.getAllAssociatedParts().size() > 0) {
+            return false;
+        }
+
+        // Remove the product if it is in the inventory.
         boolean productInList = allProducts.contains(selectedProduct);
         if (productInList) {
             allProducts.remove(selectedProduct);
         }
+
         return productInList;
     }
 

@@ -14,6 +14,7 @@ import partsapp.windows.main.MainWindow;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -234,6 +235,11 @@ public class ProductWindow implements Initializable {
 
         availablePartsTable.setItems(filteredAvailableParts);
         availablePartsTable.refresh();
+
+        // If only one available part is returned, select it as per rubric requirements
+        if (availablePartsTable.getItems().size() == 1) {
+            availablePartsTable.getSelectionModel().selectFirst();
+        }
     }
 
 
@@ -276,10 +282,11 @@ public class ProductWindow implements Initializable {
 
     /**
      * Validate that the data making up the product is valid.
-     *
+     * <p>
      * TODO: In a future version, add functionality to sum up the parts that make up the product and ensure that
      * the product pricing is greater than or equal to the parts.  This will be an added protection to ensure the
      * sale price does not cause the store a loss based on manually input data.
+     * </p>
      *
      * @return list of error message strings
      */
@@ -396,10 +403,22 @@ public class ProductWindow implements Initializable {
             return;
         }
 
-        // Copy the part over.
-        usedParts.remove(usedPartIndex);
-        usedPartsTable.setItems(usedParts);
-        usedPartsTable.refresh();
+        // Confirm the customer wants to remove the part.
+        Part partToDelete = usedParts.get(usedPartIndex).getPart();
+        Alert deleteConfirm = new Alert(Alert.AlertType.CONFIRMATION);
+        deleteConfirm.setContentText(String.format(
+                "Are you sure you want to remove the associated part?\n\n%d - %s",
+                partToDelete.getId(),
+                partToDelete.getName()
+        ));
+        Optional<ButtonType> result = deleteConfirm.showAndWait();
+
+        // Remove the part and refresh the table.
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            usedParts.remove(usedPartIndex);
+            usedPartsTable.setItems(usedParts);
+            usedPartsTable.refresh();
+        }
     }
 
     /**

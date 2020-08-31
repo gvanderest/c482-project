@@ -1,6 +1,5 @@
 package partsapp.formatters;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import partsapp.product.Product;
 
 import java.text.NumberFormat;
