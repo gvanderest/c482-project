@@ -10,21 +10,25 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.geometry.Insets?>
 
-<GridPane fx:controller="partsapp.windows.main.MainWindowController"
+<GridPane fx:controller="partsapp.windows.main.MainWindow"
           xmlns:fx="http://javafx.com/fxml" alignment="top_left" vgap="10" hgap="20">
     <padding>
         <Insets top="25" right="25" bottom="25" left="25"/>
     </padding>
     <HBox>
         <VBox spacing="10">
-            <Label text="Inventory Management System" style="-fx-font-weight: 900;" />
+            <Label text="Inventory Management System" style="-fx-font-weight: bold;" />
             <HBox spacing="20">
                 <VBox spacing="10" style="-fx-border-width: 1px; -fx-border-color: #444444; -fx-padding: 10px; -fx-border-radius: 10px;">
                     <HBox spacing="20">
-                        <Label text="Parts" />
-                        <TextField promptText="Search by Part ID or Name" />
+                        <Label text="Parts" style="-fx-min-width: 150px;" />
+                        <TextField
+                            fx:id="partsSearchField"
+                            promptText="Search by Part ID or Name"
+                            onKeyTyped="#handlePartsSearchFieldChanged"
+                        />
                     </HBox>
-                    <TableView fx:id="partsTable">
+                    <TableView fx:id="partsTable" style="-fx-max-height: 200px;">
                         <columns>
                             <TableColumn text="Part ID">
                                 <cellValueFactory>
@@ -49,37 +53,53 @@
                         </columns>
                     </TableView>
                     <HBox alignment="bottom_right" spacing="10">
-                        <Button text="Add" />
-                        <Button text="Modify" />
-                        <Button text="Delete" />
+                        <Button text="Add" onAction="#handlePartsAddButtonClick" />
+                        <Button text="Modify" onAction="#handlePartsModifyButtonClick" />
+                        <Button text="Delete" onAction="#handlePartsDeleteButtonClick" />
                     </HBox>
                 </VBox>
                 <VBox spacing="10" style="-fx-border-width: 1px; -fx-border-color: #444444; -fx-padding: 10px; -fx-border-radius: 10px;">
                     <HBox spacing="20">
-                        <Label text="Products" />
-                        <TextField promptText="Search by Product ID or Name" />
+                        <Label text="Products" style="-fx-min-width: 150px;" />
+                        <TextField
+                            fx:id="productsSearchField"
+                            promptText="Search by Product ID or Name"
+                            onKeyTyped="#handleProductsSearchFieldChanged"
+                        />
                     </HBox>
-                    <TableView fx:id="productsTable">
+                    <TableView fx:id="productsTable" style="-fx-max-height: 200px;">
                         <columns>
                             <TableColumn text="Product ID">
                                 <cellValueFactory>
                                     <PropertyValueFactory property="id" />
                                 </cellValueFactory>
                             </TableColumn>
-                            <TableColumn text="Product Name" />
-                            <TableColumn text="Inventory Level" />
-                            <TableColumn text="Price / Cost per Unit" />
+                            <TableColumn text="Product Name">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="name" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Inventory Level">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="stock" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Price / Cost per Unit">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="price" />
+                                </cellValueFactory>
+                            </TableColumn>
                         </columns>
                     </TableView>
                     <HBox alignment="bottom_right" spacing="10">
-                        <Button text="Add" />
-                        <Button text="Modify" />
-                        <Button text="Delete" />
+                        <Button text="Add" onAction="#handleProductsAddButtonClick" />
+                        <Button text="Modify" onAction="#handleProductsModifyButtonClick" />
+                        <Button text="Delete" onAction="#handleProductsDeleteButtonClick" />
                     </HBox>
                 </VBox>
             </HBox>
             <HBox alignment="top_right">
-                <Button text="Exit" onAction="#handleExit" />
+                <Button text="Exit" onAction="#handleExitButtonClick" />
             </HBox>
         </VBox>
     </HBox>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<GridPane fx:controller="partsapp.windows.products.ProductWindow"
+          xmlns:fx="http://javafx.com/fxml" alignment="top_left" vgap="10" hgap="20">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <HBox style="-fx-border-width: 1px; -fx-border-color: #444444; -fx-padding: 25px; -fx-border-radius: 10px;" spacing="25">
+        <VBox spacing="10">
+            <Label fx:id="title" style="-fx-font-weight: bold; -fx-padding: 0 0 25px 0;" />
+            <HBox>
+                <Label style="-fx-min-width: 50px;">ID</Label>
+                <TextField fx:id="productIdField" disable="true" />
+            </HBox>
+            <HBox>
+                <Label style="-fx-min-width: 50px;">Name</Label>
+                <TextField fx:id="productNameField" />
+            </HBox>
+            <HBox>
+                <Label style="-fx-min-width: 50px;">Inv</Label>
+                <TextField fx:id="productStockField" style="-fx-max-width: 50px;" />
+            </HBox>
+            <HBox>
+                <Label style="-fx-min-width: 50px;">Price</Label>
+                <TextField fx:id="productPriceField" style="-fx-max-width: 50px;" />
+            </HBox>
+            <HBox>
+                <Label style="-fx-min-width: 50px;">Max</Label>
+                <TextField fx:id="productMaxField" style="-fx-max-width: 50px;" />
+                <Label style="-fx-min-width: 50px; -fx-padding: 0 0 0 10px;">Min</Label>
+                <TextField fx:id="productMinField" style="-fx-max-width: 50px;" />
+            </HBox>
+        </VBox>
+        <VBox spacing="10">
+            <HBox spacing="20" alignment="top_right">
+                <TextField
+                        fx:id="partSearchField"
+                        promptText="Search by Part ID or Name"
+                        onKeyTyped="#handlePartsSearchFieldChanged"
+                />
+
+            </HBox>
+            <TableView fx:id="availablePartsTable" style="-fx-max-height: 200px;">
+                <columns>
+                    <TableColumn text="Part ID">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="id" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Part Name">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Inventory Level">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="stock" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Price / Cost per Unit">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="price" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+
+            <HBox alignment="top_right">
+                <Button text="Add" onAction="#handleAddPartButtonClick" />
+            </HBox>
+
+            <TableView fx:id="usedPartsTable" style="-fx-max-height: 200px;">
+                <columns>
+                    <TableColumn text="Part ID">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="id" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Part Name">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Inventory Level">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="stock" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Price / Cost per Unit">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="price" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+            <HBox alignment="top_right">
+                <VBox alignment="top_right" spacing="10">
+                    <Button text="Remove Associated Part" onAction="#handleRemovePartButtonClick" />
+                    <HBox alignment="top_right" spacing="10">
+                        <Button text="Save" onAction="#handleSaveButtonClick" />
+                        <Button text="Cancel" onAction="#handleCancelButtonClick" />
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
+    </HBox>
+</GridPane>

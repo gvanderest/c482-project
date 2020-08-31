@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane fx:controller="partsapp.windows.parts.PartWindow"
+          xmlns:fx="http://javafx.com/fxml" alignment="top_left" vgap="10" hgap="20">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+    <VBox spacing="10">
+        <HBox>
+            <Label fx:id="title" style="-fx-min-width: 100px;" />
+            <RadioButton fx:id="partInHouseRadio" text="In-House" style="-fx-min-width: 100px;" onAction="#handlePartTypeChanged" />
+            <RadioButton fx:id="partOutsourcedRadio" text="Outsourced" style="-fx-min-width: 100px;" onAction="#handlePartTypeChanged" />
+        </HBox>
+        <HBox>
+            <Label style="-fx-min-width: 100px;">ID</Label>
+            <TextField fx:id="partIdField" disable="true" />
+        </HBox>
+        <HBox>
+            <Label style="-fx-min-width: 100px;">Name</Label>
+            <TextField fx:id="partNameField" />
+        </HBox>
+        <HBox>
+            <Label style="-fx-min-width: 100px;">Inv</Label>
+            <TextField fx:id="partStockField" />
+        </HBox>
+        <HBox>
+            <Label style="-fx-min-width: 100px;">Price/Cost</Label>
+            <TextField fx:id="partPriceField" />
+        </HBox>
+        <HBox>
+            <Label style="-fx-min-width: 100px;">Max</Label>
+            <TextField fx:id="partMaxField" />
+            <Label style="-fx-min-width: 100px; -fx-padding: 0 0 0 20px;">Min</Label>
+            <TextField fx:id="partMinField" />
+        </HBox>
+        <HBox fx:id="partInHouseSection">
+            <Label style="-fx-min-width: 100px;">Machine ID</Label>
+            <TextField fx:id="partMachineIdField" />
+        </HBox>
+        <HBox fx:id="partOutsourcedSection">
+            <Label style="-fx-min-width: 100px;">Company Name</Label>
+            <TextField fx:id="partCompanyNameField" />
+        </HBox>
+        <HBox style="fx-padding: 0 0 0 100px;">
+            <Button text="Save" onAction="#handleSaveButtonClick" />
+            <Button text="Cancel" onAction="#handleCancelButtonClick" />
+        </HBox>
+    </VBox>
+</GridPane>

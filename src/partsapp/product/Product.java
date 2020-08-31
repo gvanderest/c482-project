@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import partsapp.part.Part;
 
 public class Product {
-    private ObservableList<Part> associatedParts;
+    private final ObservableList<Part> associatedParts;
     private int id;
     private String name;
     private double price;

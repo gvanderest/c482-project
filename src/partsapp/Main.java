@@ -7,29 +7,48 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import partsapp.inventory.Inventory;
 import partsapp.part.InHouse;
+import partsapp.part.Outsourced;
 import partsapp.product.Product;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         // Add example parts
-        // TODO: Detect and prevent collisions of IDs
-        Inventory.addPart(new InHouse(1, "Brakes", 15.00, 10, 1, 20));
-        Inventory.addPart(new InHouse(2, "Wheel", 11.00, 16, 1, 20));
-        Inventory.addPart(new InHouse(3, "Seat", 15.00, 10, 1, 20));
+        InHouse brakes = new InHouse(Inventory.getNextPartId(), "Brakes", 15.00, 10, 1, 20);
+        brakes.setMachineId(1234);
+        Inventory.addPart(brakes);
+
+        Outsourced wheel = new Outsourced(Inventory.getNextPartId(), "Wheel", 11.00, 16, 1, 20);
+        wheel.setCompanyName("Wheels 'R Us");
+        Inventory.addPart(wheel);
+
+        InHouse seat = new InHouse(Inventory.getNextPartId(), "Seat", 15.00, 10, 1, 20);
+        seat.setMachineId(5555);
+        Inventory.addPart(seat);
 
         // Add example products
-        // TODO: Detect and prevent collisions of IDs
-        Inventory.addProduct(new Product(1000, "Giant Bike", 299.99, 5, 1, 10));
-        Inventory.addProduct(new Product(1001, "Tricycle", 99.99, 3, 1, 5));
+        Product giantBike = new Product(Inventory.getNextProductId(), "Giant Bike", 99.99, 5, 1, 10);
+        giantBike.addAssociatedPart(wheel);
+        giantBike.addAssociatedPart(wheel);
+        giantBike.addAssociatedPart(seat);
+        giantBike.addAssociatedPart(brakes);
+        Inventory.addProduct(giantBike);
+
+        Product tricycle = new Product(Inventory.getNextProductId(), "Tricycle", 199.99, 3, 1, 5);
+        tricycle.addAssociatedPart(wheel);
+        tricycle.addAssociatedPart(wheel);
+        tricycle.addAssociatedPart(wheel);
+        tricycle.addAssociatedPart(seat);
+        tricycle.addAssociatedPart(brakes);
+        Inventory.addProduct(tricycle);
 
         // Instantiate main window
-        Parent root = FXMLLoader.load(getClass().getResource("windows/main/main_window.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("windows/main/main_window.fxml"));
+        Parent root = loader.load();
         primaryStage.setTitle("Inventory Management System");
-        primaryStage.setScene(new Scene(root, 800, 500));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
